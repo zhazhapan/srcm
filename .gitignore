@@ -47,3 +47,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+/.idea/vcs.xml
+
+.idea/*.iml
+.idea/modules.xml
+.idea/php.xml

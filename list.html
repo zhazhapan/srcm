@@ -2,9 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <link rel="shortcut icon" href="https://fakedog.xyz/wp-content/uploads/2017/12/favicon.jpg"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"-->
+    <!--type="text/javascript"></script>-->
+    <title>文件列表</title>
 </head>
-<body>
-$END$
+<body><br/>
+<div class="container">
+    <div class="row">
+        <table class="table table-bordered table-hover table-responsive table-condensed">
+            <thead>
+            <tr>
+                <th>文件名</th>
+                <th>文件大小</th>
+                <th>最后访问时间</th>
+                <th>最后修改时间</th>
+                <th>链接</th>
+            </tr>
+            </thead>
+            <tbody id="file-list">
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $.post("list.php", {password: 123456}, function (data, status) {
+        var json = JSON.parse(data);
+        var trs = "";
+        $.each(json, function (i, tr) {
+            trs += "<tr>";
+            trs += "<td>" + tr.name + "</td>";
+            trs += "<td>" + tr.size + "</td>";
+            trs += "<td>" + tr.lvtime + "</td>";
+            trs += "<td>" + tr.lmtime + "</td>";
+            trs += "<td><a target='_blank' href='" + tr.url + "'>访问</a></td>";
+            trs += "</tr>";
+        });
+        $("#file-list").html(trs);
+    });
+</script>
 </body>
 </html>

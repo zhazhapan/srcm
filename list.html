@@ -5,6 +5,8 @@
     <link rel="shortcut icon" href="https://fakedog.xyz/wp-content/uploads/2017/12/favicon.jpg"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://fakedog.xyz/cdn/js/util/utils.js"></script>
+    <script src="https://fakedog.xyz/cdn/js/layer.js"></script>
     <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"-->
     <!--type="text/javascript"></script>-->
     <title>文件列表</title>
@@ -12,13 +14,20 @@
 <body><br/>
 <div class="container">
     <div class="row">
+        <span style="padding-top: 7px;">开始日期：</span><input class="form-control col-sm-2" type="date" id="start-date"/>&emsp;
+        <span style="padding-top: 7px;">结束日期：</span><input class="form-control col-sm-2" type="date" id="end-date"/>&emsp;
+        <input value="" class="form-control col-sm-3" type="search" id="search" placeholder="使用正则表达式搜索文件">&emsp;
+        <button class="btn btn-primary" onclick="searchFile();">查询</button>
+    </div>
+    <br/>
+    <div class="row">
         <table class="table table-bordered table-hover table-responsive table-condensed">
             <thead>
             <tr>
                 <th>文件名</th>
                 <th>文件大小</th>
-                <th>最后访问时间</th>
-                <th>最后修改时间</th>
+                <th>上传时间</th>
+                <!--<th>最后修改时间</th>-->
                 <th>链接</th>
             </tr>
             </thead>
@@ -28,20 +37,51 @@
     </div>
 </div>
 <script>
-    $.post("list.php", {password: 123456}, function (data, status) {
+    $("#start-date").val(new Date().format("yyyy-MM") + "-01");
+    $("#end-date").val(new Date().format("yyyy-MM-dd"));
+    layer.load(1);
+    $.post("list.php", {
+        password: 123456,
+        start: new Date().format("yyyyMM") + "01",
+        end: new Date().format("yyyyMMdd"),
+        search: ""
+    }, function (data, status) {
+        layer.closeAll();
         var json = JSON.parse(data);
+        appendTable(json);
+    });
+
+    function appendTable(json) {
         var trs = "";
         $.each(json, function (i, tr) {
             trs += "<tr>";
             trs += "<td>" + tr.name + "</td>";
             trs += "<td>" + tr.size + "</td>";
-            trs += "<td>" + tr.lvtime + "</td>";
+            // trs += "<td>" + tr.lvtime + "</td>";
             trs += "<td>" + tr.lmtime + "</td>";
             trs += "<td><a target='_blank' href='" + tr.url + "'>访问</a></td>";
             trs += "</tr>";
         });
         $("#file-list").html(trs);
-    });
+    }
+
+    function searchFile() {
+        layer.load(1);
+        $.post("list.php", {
+            password: 123456,
+            start: $("#start-date").val().replace(/-/g, ""),
+            end: $("#end-date").val().replace(/-/g, ""),
+            search: $("#search").val()
+        }, function (data, status) {
+            layer.closeAll();
+            var json = JSON.parse(data);
+            if (data.indexOf("error") > 0) {
+                alert(json.error);
+            } else {
+                appendTable(json);
+            }
+        });
+    }
 </script>
 </body>
 </html>

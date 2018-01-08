@@ -22,16 +22,25 @@
 </head>
 <body><br/><br/>
 <div class="container">
-    <form method="post" class="form-horizontal text-cener"
-          enctype="multipart/form-data">
-        <div class="form-group">
+    <div class="row">
+        <div class="col-sm-12">
             <input id="file-input" class="form-control file" multiple data-max-file-count="100"
                    data-preview-file-type="any" name="file"
                    type="file"/>
         </div>
-    </form>
+    </div>
     <br/>
-    <div id="upload-status-0"></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="upload-status-0"></div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            <a href="list.html" target="_blank">文件列表 &gt;&gt;</a>
+        </div>
+    </div>
 </div>
 <script>
     var file_count = 0;

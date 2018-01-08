@@ -27,7 +27,7 @@ foreach ($_FILES as $upload_file) {
         move_uploaded_file($upload_file["tmp_name"],
             "$prefix" . $upload_file["name"]);
         $path = substr($_SERVER["PHP_SELF"], 0, strrpos($_SERVER["PHP_SELF"], "/"));
-        $result .= "{\"url\" : \"https://$_SERVER[HTTP_HOST]$path/$prefix$upload_file[name]\"}";
+        $result .= "{\"url\" : \"https://$_SERVER[HTTP_HOST]$path/$prefix" . urlencode($upload_file["name"]) . "\"}";
     }
 //    $result .= ",";
     break;

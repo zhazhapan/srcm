@@ -22,7 +22,7 @@
                 <span>结束日期：</span>
                 <input class="form-control col-sm-2" type="date" id="end-date"/>&emsp;
                 <input value="" class="form-control col-sm-3" type="search" id="search" placeholder="使用正则表达式搜索文件">&emsp;
-                <button class="btn btn-primary" onclick="searchFile();">查询</button>
+                <button class="btn btn-primary" onclick="return searchFile();">查询</button>
             </form>
         </div>
     </div>
@@ -90,6 +90,7 @@
                 appendTable(json);
             }
         });
+        return false;
     }
 </script>
 </body>
